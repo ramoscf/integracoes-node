@@ -19,6 +19,8 @@ export default class HttpController {
           console.log(result);
           return result;
         } catch (err) {
+
+          return err;
           console.error(`Erro ao carregar o módulo para ${cliente}:`, err);
           throw new Error(`Erro ao carregar o módulo para ${cliente}`);
         }
