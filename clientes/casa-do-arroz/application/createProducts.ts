@@ -84,29 +84,7 @@ const insertBatch = async (
 ): Promise<void> => {
   if (records.length === 0) return;
   try {
-  //   const values = records
-  //     .map((record) => {
-  //       Log.info('Create Products: criando o produto', record);
-  //       const {
-  //         prodCod,
-  //         prodDesc,
-  //         prodNome,
-  //         prodEmpresa,
-  //         prodEstabelecimento,
-  //         prodFlag100g,
-  //         prodProporcao,
-  //         prodSku,
-  //       } = record.getState();
-  //       return `('${prodNome}', ${prodCod}, ${prodSku}, '${prodProporcao}', '${prodDesc}', ${prodEmpresa}, ${prodEstabelecimento}, '${prodFlag100g}' )`;
-  //     })
-  //     .join(', ');
-
-  //   const query = `
-  //   INSERT INTO cf_produto (prod_nome, prod_cod, prod_sku, prod_proporcao, prod_desc, prod_empresa, prod_estabelecimento, prod_flag100g )
-  //   VALUES ${values}
-  // `;
-
-  //   await queryRunner.query(query);
+  
 
   const entities = queryRunner.manager.create(
     CfProdutoEntity,
@@ -136,30 +114,34 @@ const updateBatch = async (
       return record.getState().prodCod;
     });
 
-    const updateProdNome = records
-      .map(
-        (record) =>
-          `WHEN ${record.getState().prodCod} THEN "${record.getState().prodNome.replace(/"/g, '\\"')}"`,
-      )
-      .join(' ');
-    const updateProdSku = records
-      .map(
-        (record) =>
-          `WHEN ${record.getState().prodCod} THEN "${record.getState().prodSku}"`,
-      )
-      .join(' ');
-    const updateProdProporcao = records
-      .map(
-        (record) =>
-          `WHEN ${record.getState().prodCod} THEN "${record.getState().prodProporcao.replace(/"/g, '\\"')}"`,
-      )
-      .join(' ');
-    const updateProdDesc = records
-      .map(
-        (record) =>
-          `WHEN ${record.getState().prodCod} THEN "${record.getState().prodDesc.replace(/"/g, '\\"')}"`,
-      )
-      .join(' ');
+            const updateProdNome = records
+          .map((record) => {
+            const prodNome = record.getState().prodNome;
+            return `WHEN ${record.getState().prodCod} THEN "${prodNome ? prodNome.replace(/"/g, '\\"') : ''}"`;
+          })
+          .join(' ');
+
+        const updateProdSku = records
+          .map((record) => {
+            const prodSku = record.getState().prodSku;
+            return `WHEN ${record.getState().prodCod} THEN "${prodSku ? prodSku : ''}"`;
+          })
+          .join(' ');
+
+        const updateProdProporcao = records
+          .map((record) => {
+            const prodProporcao = record.getState().prodProporcao;
+            return `WHEN ${record.getState().prodCod} THEN "${prodProporcao ? prodProporcao.replace(/"/g, '\\"') : ''}"`;
+          })
+          .join(' ');
+
+        const updateProdDesc = records
+          .map((record) => {
+            const prodDesc = record.getState().prodDesc;
+            return `WHEN ${record.getState().prodCod} THEN "${prodDesc ? prodDesc.replace(/"/g, '\\"') : ''}"`;
+          })
+          .join(' ');
+
 
     const query = `
     UPDATE cf_produto
