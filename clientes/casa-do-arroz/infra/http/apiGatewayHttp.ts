@@ -225,7 +225,7 @@ export default class ApiGatewayHttp implements ApiGateway {
       hasNext = response.hasNext;
       page += 1;
     }
-
+    
     return allProducts;
   }
 

@@ -4,14 +4,13 @@ import Product from '../domain/entities/Product';
 import Price from '../domain/entities/Price';
 import Promotion from '../domain/entities/Promotion';
 import AxiosAdapter from '../../shared/http/AxiosAdapter';
-// import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter';
+import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter';
 import { PromotionalComboDTO } from '../domain/dtos/PromotionalComboDTO';
 import { CfProdutoEntity } from '../infra/database/mapping/CfProduto';
 import Log from '../infra/Logger';
 import { CfDailyprintEntity } from '../infra/database/mapping/CfDailyprint';
 import { ProductDivision } from '../domain/dtos/CategoryDTO';
 import { CfValorEntity } from '../infra/database/mapping/CfValor';
-import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter copy';
 
 interface APIPackaging {
   Status: string;

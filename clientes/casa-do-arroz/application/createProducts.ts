@@ -7,7 +7,7 @@ import { ProductDivision } from '../domain/dtos/CategoryDTO';
 import AxiosAdapter from '../../shared/http/AxiosAdapter';
 import Log from '../infra/Logger';
 import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter';
-import { CfProdutoEntity } from '../../shared/database/mapping/CfProduto';
+import { CfProdutoEntity } from '../infra/database/mapping/CfProduto';
 
 const client = new AxiosAdapter();
 const apiGateway = new ApiGatewayHttp(client);
