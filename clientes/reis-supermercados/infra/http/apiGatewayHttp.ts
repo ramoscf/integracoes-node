@@ -6,7 +6,7 @@ import Price from '../../domain/entities/Price';
 import moment from 'moment';
 
 export default class ApiGatewayHttp implements ApiGateway {
-  private baseUrl: string = 'http://200.7.11.61:8088';
+  private baseUrl: string = 'http://187.32.170.29:8088';
 
   constructor(readonly client: HttpClient) {}
   async getBranches(): Promise<number[]> {
