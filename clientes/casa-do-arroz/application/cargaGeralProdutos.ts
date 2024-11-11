@@ -6,7 +6,6 @@ import { APIPackaging } from '../domain/dtos/PackageDTO';
 import { ProductDivision } from '../domain/dtos/CategoryDTO';
 import AxiosAdapter from '../../shared/http/AxiosAdapter';
 import { CfProdutoEntity } from '../../shared/database/mapping/CfProduto';
-// import MysqlTypeOrmAdapter from '../../shared/database/MysqlTypeOrmAdapter copy';
 import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter';
 import Log from '../infra/Logger';
 
