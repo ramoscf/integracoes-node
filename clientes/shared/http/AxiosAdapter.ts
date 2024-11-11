@@ -18,7 +18,7 @@ export default class AxiosAdapter implements HttpClient {
   async get(url: string): Promise<any> {
     const response = await axios.get(url, {
       headers: this.headers,
-      timeout: 300000, // 10 segundos
+      timeout: 1000000, // 10 segundos
     });
     if (response.status !== 200) throw new Error(response.data.message);
     return response.data;
@@ -27,7 +27,7 @@ export default class AxiosAdapter implements HttpClient {
   async post(url: string, body: any): Promise<any> {
     const response = await axios.post(url, body, {
       headers: this.headers,
-      timeout: 300000, // 10 segundos
+      timeout: 1000000, // 10 segundos
     });
     if (response.status === 422) throw new Error(response.data.message);
     return response.data;
