@@ -1,0 +1,12 @@
+# RP INFO INTEGRACAO - API
+*/40 * * * * curl http://localhost:8008/reviewer-supermercados/createProductsAndPrices
+*/40 * * * * curl http://localhost:8008/pratico-supermercados/createProductsAndPrices
+*/40 * * * * curl http://localhost:8008/pratico-supermercados/createPromotions
+*/40 * * * * curl http://localhost:8008/america-supermercados/createProductsAndPrices
+*/40 * * * * curl http://localhost:8008/reis-supermercados/createProductsAndPrices
+
+#CONSINCO API
+*/27 * * * * curl http://localhost:8008/casa-do-arroz/createProducts
+*/35 * * * * curl http://localhost:8008/casa-do-arroz/createPrices
+*/40 * * * * curl http://localhost:8008/casa-do-arroz/createPromotions
+
