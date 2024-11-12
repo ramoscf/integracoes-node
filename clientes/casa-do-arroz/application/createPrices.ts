@@ -8,7 +8,7 @@ import AxiosAdapter from '../../shared/http/AxiosAdapter';
 import { CfProdutoEntity } from '../../shared/database/mapping/CfProduto';
 import MysqlTypeOrmAdapter from '../infra/database/MysqlTypeOrmAdapter';
 import Log from '../infra/Logger';
-import { CfValorEntity } from '../../shared/database/mapping/CfValor';
+import { CfValorEntity } from '../infra/database/mapping/CfValor';
 
 type ProductInfo = {
   prod_id: number;
