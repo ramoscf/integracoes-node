@@ -43,7 +43,7 @@ export default class ApiGatewayHttp implements ApiGateway {
         let novoToken = tokenHeader.replace(/\r\n/g, '\n');
     
         this.client.setHeaders({
-          Authorization: 'Bearer ' + novoToken,
+          Authorization: 'Bearer ' +"OTfHUkiQ3J_Nry7AGBt_BLJNqsZpH7dymYPiaZ_-z64vgFwsPSq3Y2OmT_V2Of3NOptqhl_GV7GAWFgvOlvK8JcYqy52XcuFQ3WGwaz4AKYud5-WfGCt4hNsY9R6_B-v_nILo_nm5LOpLWIMHk4zEUZ8foQcejp3vgsv6Dj26jEKD8zlgU18Lm78U2HN2W2vWZ1oCkmx3KzjI-fVTOUguUWmb1cEGunrBYI1uMVzt3-aJpJXQIqcOLHiqP7ICf4OC6ytdPuL2oSyyPu5HNB1h60L-kJVwdpIPhT8aOvtk6aayW5lzJBP24iQQodCj4fEg4zdg2dWKK4AYbyCVYyFPE_YG22csMM9z5PNeDBJx6SA8wP_uI-4nPFR-ob6w2WpwZUEQN5gD29X-pKyL4G4eRvuBQglf85SR0u7vwz5QDJOnAn206DqJIVibq4xt1qJN39IRXUR6Vn6yiXEoO_Y-OsRiOEh31Eoz_g3uF_RzAeNadcsdGNzR9Eba-z9eeFD8BguXNjYFo67AQGvsqyqDjSzx-GS7G7X1iuA9gxx1SvAsCrHxchfsMgAv_6irTVXItb3m3vsWy9Hy9NyO4j9L4AXWTUxbV_iaIWfHOTDU8HCqkRMt6Rw0dKLWB7c32Jq6gsJCGHH9MjW-lft-4nIlrf47LXvcChHeafi8Hilfgt6X1NlmcpzyNENaB2cbTX2oq0xVQ",
           Connection: 'keep-alive',
         });
     
@@ -148,6 +148,8 @@ export default class ApiGatewayHttp implements ApiGateway {
   }
 
   async getProductsByCode(codes?: number[]): Promise<Product[]> {
+    console.log("code 2121");
+
     if (!codes || codes.length == 0) return [];
 
     let page = 1;
@@ -203,6 +205,8 @@ export default class ApiGatewayHttp implements ApiGateway {
   }
 
   async getAllProducts(): Promise<Product[]> {
+    console.log("code 12");
+
     let page = 1;
     const pageSize = 500;
     let hasNext = true;
