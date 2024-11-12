@@ -40,10 +40,13 @@ export default class ApiGatewayHttp implements ApiGateway {
           })
         ).access_token;
 
-    this.client.setHeaders({
-      Authorization: 'Bearer ' + tokenHeader,
-      Connection: 'keep-alive',
-    });
+        let novoToken = tokenHeader.replace(/\r\n/g, '\n');
+    
+        this.client.setHeaders({
+          Authorization: 'Bearer ' + novoToken,
+          Connection: 'keep-alive',
+        });
+    
   }
 
   async *fetchProducts(
