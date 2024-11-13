@@ -5,6 +5,7 @@ import Price from '../../domain/entities/Price';
 import Product from '../../domain/entities/Product';
 import Promotion from '../../domain/entities/Promotion';
 import { ApiGateway } from './apiGateway';
+import axios from 'axios';
 
 interface APIPackaging {
   Status: string;
@@ -46,6 +47,15 @@ export default class ApiGatewayHttp implements ApiGateway {
           Connection: 'keep-alive',
         });
     
+  }
+
+  async Newlogin() {
+    const response = await axios.post(`${this.baseUrl}/api/v1/auth/login`, {
+      company: '1',
+      username: 'VINICIUSCA',
+      password: 'Carroz#v#300724',
+    });
+    return response.data.access_token
   }
 
   async *fetchProducts(
@@ -209,9 +219,16 @@ export default class ApiGatewayHttp implements ApiGateway {
     const today = new Date().toISOString().split('T')[0];
 
     while (hasNext) {
-      const response = await this.client.get(
-        `${this.baseUrl}/CadastrosEstruturaisAPI/api/v1/Produto?Page=${page}&PageSize=${pageSize}&DataHoraAlteracao=${today}`,
-      );
+      //const response = await this.client.get(
+        //`${this.baseUrl}/CadastrosEstruturaisAPI/api/v1/Produto?Page=${page}&PageSize=${pageSize}&DataHoraAlteracao=${today}`,
+      //);
+      let token = await this.Newlogin();
+      var res = await axios.get(`${this.baseUrl}/CadastrosEstruturaisAPI/api/v1/Produto?Page=${page}&PageSize=${pageSize}&DataHoraAlteracao=${today}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+      var response = res.data;
 
       const products = response.items.map(
         (productData) =>
