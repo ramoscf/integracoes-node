@@ -3,6 +3,9 @@ import axios from 'axios';
 
 interface SalvePreco {
     ProductKey: string;
+    precoItem: string;
+    nome: string;
+    dinamicaID: number;
 }
 
 async function Requestlogin() {
@@ -30,12 +33,23 @@ async function RequestProductsForSave(token: string): Promise<SalvePreco[]> {
         );
 
         const dados = response.data['items'];
+        var nome = '';
+       
 
         for (const dado of dados) {
             console.log("======================================================================>>>>");
-            console.log(dado['itens'][0]['seqProduto']);  
-
-            arraySalve.push(salvePrecoAdapter(dado['itens'][0]['seqProduto']));
+           
+            if (dado['itens'][1]['familia']['descricao']) {
+                nome = dado['itens'][1]['familia']['descricao'];
+            } 
+            else 
+            {
+                nome = dado['itens'][1]['produto']['descricaoReduzida'];
+                //dado['itens'][1]['produto']['percentualDesconto']
+             
+            }
+        
+            arraySalve.push(salvePrecoAdapter(dado['itens'][0]['seqProduto'], dado['itens'][0]["precoItem"], nome, dado['itens'][1]['percentualDesconto']));
             console.log("======================================================================>>>>");
         }
 
@@ -50,9 +64,19 @@ async function RequestProductsForSave(token: string): Promise<SalvePreco[]> {
 }
 
 
-function salvePrecoAdapter(ProductKey: string): SalvePreco {
+function salvePrecoAdapter(ProductKey: string, precoItem: string, nome: string, percentualDesconto: number): SalvePreco {
+    var dinamica = 9;
+
+    console.log("Desconto ===========> ",percentualDesconto)
+    if (percentualDesconto > 0) {
+        dinamica = 10
+    }
+
     return {
-        ProductKey: ProductKey
+        ProductKey: ProductKey,
+        precoItem: precoItem.toString().replace(/\./g, ','),
+        nome: nome,
+        dinamicaID: dinamica
     };
 }
 
