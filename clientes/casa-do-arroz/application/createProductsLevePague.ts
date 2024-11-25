@@ -105,7 +105,7 @@ async function loadProductKey(pro: { ProductKey: string }[]): Promise<string[]> 
     const produtosKeys: string[] = [];
     
     for (const dado of pro) {
-        console.log(dado);
+      //  console.log(dado);
 
         produtosKeys.push(dado['ProductKey']);
     }
@@ -115,14 +115,30 @@ async function loadProductKey(pro: { ProductKey: string }[]): Promise<string[]> 
 
 
 async function getProductsOnDataBase(pro) {
+
     var produtosKeys = pro.map(dado => dado['ProductKey']);
     var co = await conn();
     const inClause = new Array(produtosKeys.length).fill('?').join(',');
-    var data = await co.execute(
+    console.log('SELECT * FROM cf_produto WHERE prod_cod IN (' + inClause + ')',)
+
+
+    console.log(inClause);
+
+    var [data, fields] = await co.execute(
         'SELECT * FROM cf_produto WHERE prod_cod IN (' + inClause + ')', 
         produtosKeys
     );
-    console.log(data);
+    
+
+    if (Array.isArray(data)) {
+        console.log('Número de produtos encontrados:', data.length);
+        for (let i = 0; i < data.length; i++) {
+            console.log(`Produto ${i + 1}:`, data[i]); // Exibe cada produto encontrado
+        }
+    } else {
+        console.error('Os dados retornados não são um array de resultados:', data);
+    }
+ 
     co.end();
 }
 
