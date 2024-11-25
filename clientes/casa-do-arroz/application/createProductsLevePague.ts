@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import mysql from 'mysql2/promise';
+import { RowDataPacket } from 'mysql2'; 
 
 interface SalvePreco {
     ProductKey: string;
@@ -10,6 +11,17 @@ interface SalvePreco {
     dataInicio: string,
     dataFim: string,
 }
+
+async function conn() {
+    const connection = await mysql.createConnection({
+      host: 'cartazfacilpro.ctj8bnjcqdvd.us-east-2.rds.amazonaws.com',
+      user: 'cartazdb',
+      password: 'tbCJShR2',
+      database: 'casadoarroz',
+    });
+  
+    return connection;
+  }
 
 async function Requestlogin() {
     const response = await axios.post(`https://hs170515.consinco.cloudtotvs.com.br:8343/api/v1/auth/login`, {
@@ -59,7 +71,7 @@ async function RequestProductsForSave(token: string): Promise<SalvePreco[]> {
         
         }
 
-        console.log(arraySalve);
+     //   console.log(arraySalve);
 
         return arraySalve;
 
@@ -89,11 +101,24 @@ function salvePrecoAdapter(ProductKey: string, precoItem: string, nome: string, 
     };
 }
 
-
-
-async function getProductsOnDataBase() {
+async function loadProductKey(pro: { ProductKey: string }[]): Promise<string[]> {
+    const produtosKeys: string[] = [];
     
-} 
+    for (const dado of pro) {
+        console.log(dado);
+
+        produtosKeys.push(dado['ProductKey']);
+    }
+
+    return produtosKeys;
+}
+
+
+async function getProductsOnDataBase(pro) {
+    var dados = loadProductKey(pro);
+
+    console.log(dados);
+}
 
 
 async function updateOrCreateData() {
@@ -104,9 +129,8 @@ async function updateOrCreateData() {
 async function createProductsLevePague() {
 
    const token = await Requestlogin();
-   await RequestProductsForSave(token);
-   //console.log(token);
-    
+   const produtosRequest = await RequestProductsForSave(token);
+   const forSave = getProductsOnDataBase (produtosRequest);
 } 
 
 
