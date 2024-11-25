@@ -115,10 +115,17 @@ async function loadProductKey(pro: { ProductKey: string }[]): Promise<string[]> 
 
 
 async function getProductsOnDataBase(pro) {
-    var dados = loadProductKey(pro);
-
-    console.log(dados);
+    var produtosKeys = pro.map(dado => dado['ProductKey']);
+    var co = await conn();
+    const inClause = new Array(produtosKeys.length).fill('?').join(',');
+    var data = await co.execute(
+        'SELECT * FROM cf_produto WHERE prod_cod IN (' + inClause + ')', 
+        produtosKeys
+    );
+    console.log(data);
+    co.end();
 }
+
 
 
 async function updateOrCreateData() {
