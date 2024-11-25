@@ -6,6 +6,9 @@ interface SalvePreco {
     precoItem: string;
     nome: string;
     dinamicaID: number;
+    percentualDesconto: number;
+    dataInicio: string,
+    dataFim: string,
 }
 
 async function Requestlogin() {
@@ -37,20 +40,23 @@ async function RequestProductsForSave(token: string): Promise<SalvePreco[]> {
        
 
         for (const dado of dados) {
-            console.log("======================================================================>>>>");
            
             if (dado['itens'][1]['familia']['descricao']) {
                 nome = dado['itens'][1]['familia']['descricao'];
             } 
             else 
             {
-                nome = dado['itens'][1]['produto']['descricaoReduzida'];
-                //dado['itens'][1]['produto']['percentualDesconto']
-             
+
+                nome = dado['itens'][1]['produto']['descricaoReduzida'];             
+            
             }
+
+           var dataInicio = dado["dataInicio"];
+           var dataFim = dado["dataFim"];
+
+            arraySalve.push(salvePrecoAdapter(dado['itens'][0]['seqProduto'], dado['itens'][0]["precoItem"], nome, 
+                dado['itens'][1]['percentualDesconto'], dataInicio, dataFim));
         
-            arraySalve.push(salvePrecoAdapter(dado['itens'][0]['seqProduto'], dado['itens'][0]["precoItem"], nome, dado['itens'][1]['percentualDesconto']));
-            console.log("======================================================================>>>>");
         }
 
         console.log(arraySalve);
@@ -64,10 +70,10 @@ async function RequestProductsForSave(token: string): Promise<SalvePreco[]> {
 }
 
 
-function salvePrecoAdapter(ProductKey: string, precoItem: string, nome: string, percentualDesconto: number): SalvePreco {
+function salvePrecoAdapter(ProductKey: string, precoItem: string, nome: string, percentualDesconto: number, dataInicio: string,
+    dataFim: string): SalvePreco {
     var dinamica = 9;
 
-    console.log("Desconto ===========> ",percentualDesconto)
     if (percentualDesconto > 0) {
         dinamica = 10
     }
@@ -76,7 +82,10 @@ function salvePrecoAdapter(ProductKey: string, precoItem: string, nome: string, 
         ProductKey: ProductKey,
         precoItem: precoItem.toString().replace(/\./g, ','),
         nome: nome,
-        dinamicaID: dinamica
+        dinamicaID: dinamica,
+        percentualDesconto: percentualDesconto,
+        dataInicio: dataInicio,
+        dataFim: dataFim,
     };
 }
 
