@@ -11,6 +11,7 @@ async function Requestlogin() {
 }
 
 async function RequestPruductsForSave() {
+    //https://hs170515.consinco.cloudtotvs.com.br:8343/SMPromocoesAPI/api/v1/CombosPromocionais?PageSize=500&NroEmpresa=1
     
 }
 
@@ -25,7 +26,7 @@ async function updateOrCreateData() {
 
 
 async function createProductsLevePague() {
-    
+
    const token = await Requestlogin();
    console.log(token);
     
