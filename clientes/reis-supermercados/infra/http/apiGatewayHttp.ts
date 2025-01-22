@@ -31,6 +31,16 @@ export default class ApiGatewayHttp implements ApiGateway {
     });
   }
 
+  async Newlogin() {
+    const response = await axios.post(`${this.baseUrl}/v1.1/auth`, {
+      usuario: '100107',
+      senha: '997895',
+    });
+    return response.data.response.token
+  }
+
+
+
   async *getAlteredProducts(
     branchId: number,
   ): AsyncGenerator<Product[], void, unknown> {
@@ -97,9 +107,14 @@ export default class ApiGatewayHttp implements ApiGateway {
     let lastId = 0;
 
     while (true) {
-      const response = await this.client.get(
-        `${this.baseUrl}/v2.8/produtounidade/listaprodutos/${lastId}/unidade/${branchId}/detalhado/ativos`,
-      );
+     
+      let token = await this.Newlogin();
+      var res = await axios.get(`${this.baseUrl}/v2.8/produtounidade/listaprodutos/${lastId}/unidade/${branchId}/detalhado/ativos`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+      var response = res.data;
 
       const products: Product[] = response.response.produtos.map(
         (productData) => {
