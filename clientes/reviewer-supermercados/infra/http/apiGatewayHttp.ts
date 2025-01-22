@@ -6,7 +6,7 @@ import Log from '../Logger';
 import HttpClient from './HttpClient';
 
 export default class ApiGatewayHttp implements ApiGateway {
-  private baseUrl: string = 'http://186.211.99.240:9000';
+  private baseUrl: string = 'http://186.211.99.240:9051';
 
   constructor(readonly client: HttpClient) {}
   async getBranches(): Promise<number[]> {
