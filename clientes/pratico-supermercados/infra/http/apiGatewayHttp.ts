@@ -20,15 +20,13 @@ export default class ApiGatewayHttp implements ApiGateway {
 
   async login(token?: string) {
     let tokenHeader;
-    if (!token) {
+   
       tokenHeader = await this.client.post(`${this.baseUrl}/v1.1/auth`, {
         usuario: '100044',
         senha: '1278159515',
       });
       tokenHeader = tokenHeader.response.token;
-    } else {
-      tokenHeader = token;
-    }
+   
     this.client.setHeaders({
       token: tokenHeader,
       Connection: 'keep-alive',
