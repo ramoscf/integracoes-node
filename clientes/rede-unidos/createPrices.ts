@@ -80,6 +80,11 @@ const transformRecord = (record: SQLServerRecord): MySQLRecord => {
 const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
   const connection = sqlserverDatabase.getConnection();
   const today = new Date().toISOString().split('T')[0];
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Subtrai 1 dia
+  const yesterdayString = yesterday.toISOString().split('T')[0];
+
   return connection
     .createQueryBuilder()
     .select([
@@ -95,6 +100,7 @@ const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
     .from('VW_UNVDIGITAL_PRODUTO', 'vw')
     .where(`vw.dt_ultima_alteracao >= '${today}'`)
     .orWhere(`dtFim_Promocao >= '${today}'`)
+    .orWhere(`ult_Promocao = '${yesterdayString}'`)
     .distinct(true)
     .stream();
 
