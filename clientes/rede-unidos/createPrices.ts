@@ -82,7 +82,7 @@ const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
   const today = new Date().toISOString().split('T')[0];
   
   const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1); // Subtrai 1 dia
+  yesterday.setDate(yesterday.getDate() - 10); // Subtrai 1 dia
   const yesterdayString = yesterday.toISOString().split('T')[0];
 
   return connection
@@ -98,9 +98,9 @@ const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
       'id_Loja',
     ])
     .from('VW_UNVDIGITAL_PRODUTO', 'vw')
-    .where(`vw.dt_ultima_alteracao >= '${today}'`)
-    .orWhere(`dtFim_Promocao >= '${today}'`)
-    .orWhere(`ult_Promocao = '${yesterdayString}'`)
+    .where(`vw.dt_ultima_alteracao >= '${yesterdayString}'`)
+    .orWhere(`dtFim_Promocao >= '${yesterdayString}'`)
+    .orWhere(`ult_Promocao >= '${yesterdayString}'`)
     .distinct(true)
     .stream();
 
