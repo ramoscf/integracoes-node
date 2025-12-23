@@ -79,30 +79,31 @@ const transformRecord = (record: SQLServerRecord): MySQLRecord => {
 
 const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
   const connection = sqlserverDatabase.getConnection();
-  const today = new Date().toISOString().split('T')[0];
+
   
   const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 10); // Subtrai 1 dia
-  const yesterdayString = yesterday.toISOString().split('T')[0];
+yesterday.setDate(yesterday.getDate() - 10); // Subtrai 10 dias
+const yesterdayString = yesterday.toISOString().split('T')[0]; // YYYY-MM-DD
 
-  return connection
-    .createQueryBuilder()
-    .select([
-      'descricao',
-      'plu',
-      'codigo_barra',
-      'unidade',
-      'Vlr_Cluster',
-      'vlr_promocao',
-      'vlr_produto',
-      'id_Loja',
-    ])
-    .from('VW_UNVDIGITAL_PRODUTO', 'vw')
-    .where(`vw.dt_ultima_alteracao >= '${yesterdayString}'`)
-    .orWhere(`dtFim_Promocao >= '${yesterdayString}'`)
-    .orWhere(`ult_Promocao >= '${yesterdayString}'`)
-    .distinct(true)
-    .stream();
+return connection
+  .createQueryBuilder()
+  .select([
+    'vw.descricao',
+    'vw.plu',
+    'vw.codigo_barra',
+    'vw.unidade',
+    'vw.Vlr_Cluster',
+    'vw.vlr_promocao',
+    'vw.vlr_produto',
+    'vw.id_Loja',
+  ])
+  .from('VW_UNVDIGITAL_PRODUTO', 'vw')
+  .where('vw.dt_ultima_alteracao >= :yesterday', { yesterday: yesterdayString })
+  .orWhere('vw.dtFim_Promocao >= :yesterday', { yesterday: yesterdayString })
+  .orWhere('vw.ult_Promocao >= :yesterday', { yesterday: yesterdayString })
+  .distinct(true)
+  .stream();
+
 
   // return sqlServerPool.request().query().stream();
 };
