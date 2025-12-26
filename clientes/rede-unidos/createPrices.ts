@@ -82,7 +82,7 @@ const fetchDataStreamFromSQLServer = async (): Promise<Readable> => {
 
   
   const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 10); // Subtrai 10 dias
+yesterday.setDate(yesterday.getDate() - 3); // Subtrai 3 dias
 const yesterdayString = yesterday.toISOString().split('T')[0]; // YYYY-MM-DD
 
 return connection
